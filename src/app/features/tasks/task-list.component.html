@@ -1,0 +1,78 @@
+<app-navbar></app-navbar>
+
+<div class="p-8 bg-gray-100 min-h-screen">
+
+  <div class="max-w-4xl mx-auto">
+
+    <!-- Dashboard Cards -->
+    <div class="grid grid-cols-2 gap-6 mb-6">
+      <div class="bg-white p-6 rounded-xl shadow">
+        <h3 class="text-gray-500 text-sm">Total Tasks</h3>
+        <p class="text-2xl font-bold">{{ taskService.totalTasks() }}</p>
+      </div>
+
+      <div class="bg-white p-6 rounded-xl shadow">
+        <h3 class="text-gray-500 text-sm">Completed</h3>
+        <p class="text-2xl font-bold text-green-600">
+          {{ taskService.completedTasks() }}
+        </p>
+      </div>
+    </div>
+
+    <!-- Add Task -->
+    <div class="bg-white p-6 rounded-xl shadow mb-6">
+      <h2 class="text-lg font-semibold mb-4">Add Task</h2>
+
+      <div class="grid gap-4">
+        <input [(ngModel)]="title"
+          placeholder="Task title"
+          class="border p-2 rounded-md" />
+
+        <textarea [(ngModel)]="description"
+          placeholder="Task description"
+          class="border p-2 rounded-md"></textarea>
+
+        <button
+          (click)="addTask()"
+          class="bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition">
+          Add Task
+        </button>
+      </div>
+    </div>
+
+    <!-- Task List -->
+    <div class="bg-white p-6 rounded-xl shadow">
+      <h2 class="text-lg font-semibold mb-4">Task List</h2>
+
+      <div *ngFor="let task of taskService.tasks(); trackBy: trackById"
+           class="flex justify-between items-center border-b py-3">
+
+        <div>
+          <p class="font-medium"
+             [class.line-through]="task.completed">
+            {{ task.title }}
+          </p>
+          <p class="text-sm text-gray-500">
+            {{ task.description }}
+          </p>
+        </div>
+
+        <div class="flex gap-3">
+          <button
+            (click)="taskService.toggleTask(task.id)"
+            class="text-green-600 text-sm">
+            ✓
+          </button>
+
+          <button
+            (click)="taskService.deleteTask(task.id)"
+            class="text-red-600 text-sm">
+            ✕
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</div>
